@@ -1,5 +1,5 @@
 # RubiksSolver (2016)
-Rubik's Cube solver written in Python 2.7. You need to install VPython.
+Rubik's Cube solver written in Python 2.7, the algorithm used is the one you learn when you are a beginner. You need to install [VPython](https://vpython.org/).
 The code is all in one file, we were just starting to learn programming :)
 
 Solveur de Rubik's Cube écrit en Python 2.7, l'algorithme utilisé est celui que l'on apprend lorsque que l'on est débutant. Vous devez installer VPython. 
