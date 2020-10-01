@@ -1,12 +1,12 @@
-import random # Ajoute les fonctions qui utilisent l'aleatoire -> Pour le melange
-import sys # Ajoute la fonction sleep() -> Pour mettre le programme est pause quelques secondes
-from visual import * # Pour la 3D
+import random #Add functions that use random -> For mixing
+import sys # Add the sleep () function -> To put the program in pause a few seconds
+from visual import * # For 3D
 
-moveNbr = 0 # Nombre de mouvements effecutes, utile pour les statistiques
-fps = 24 # Pour le visuel, nombre d'images par seconde
+moveNbr = 0 # Number of movements performed, useful for statistics
+fps = 24 # For the visual, number of images per second
 
 
-# Fait le plan de la corespondance entre les faces et les vecteurs
+# Plot the correspondence between faces and vectors
 faces = {'F': (color.red, (0, 0, 1)),
 		 'B': (color.orange, (0, 0, -1)),
 		 'U': (color.yellow, (0, 1, 0)),
@@ -14,13 +14,14 @@ faces = {'F': (color.red, (0, 0, 1)),
 		 'D': (color.white, (0, -1, 0)),
 		 'R': (color.green, (1, 0, 0))}
 
-# Met les couleurs sur chaque petit cube, face par face.
+# Put the colors on each small cube, face by face.
 stickers = []
 for face_color, axis in faces.values():
 	for x in (-1, 0, 1):
 		for y in (-1, 0, 1):
 
-			# Commence avec toutes autocollants vers le haut, puis on les tourne
+			#Start with all the stickers up, then we turn
+
 			sticker = box(color=face_color, pos=(x, y, 1.5),
 						  length=0.98, height=0.98, width=0.05)
 			cos_angle = dot((0, 0, 1), axis)
@@ -28,7 +29,7 @@ for face_color, axis in faces.values():
 			sticker.rotate(angle=acos(cos_angle), axis=pivot, origin=(0, 0, 0))
 			stickers.append(sticker)
 
-# Rotation des parties du cube en 3 dimensions
+# Rotate parts of the cube in 3 dimensions
 def rotate3D(key):
 	if key[0] in faces:
 		face_color, axis = faces[key[0]]
@@ -48,31 +49,32 @@ def rotate3D(key):
 				sticker.rotate(angle=angle / fps, axis=axis,origin=(0, 0, 0))
 
 
-# d = Down  = Bas   
-# u = Up	= Haut  
-# f = Face  = Face  
-# b = Back  = Orange
-# r = Right = Droite
-# l = Left  = Gauche
+# d = Down     
+# u = Up	
+# f = Face    
+# b = Back   
+# r = Right
+# l = Left 
 
-# 'w' = White  = Blanc
-# 'y' = Yellow = Jaune
-# 'r' = Red	= Rouge
-# 'o' = Orange = Orange
-# 'g' = Green  = Vert
-# 'b' = Blue   = Bleu
+# 'w' = White  
+# 'y' = Yellow 
+# 'r' = Red	
+# 'o' = Orange 
+# 'g' = Green  
+# 'b' = Blue  
 
 #Centres
-d   = 'w' # Down = Bas
-u   = 'y' # Up = Haut
-f   = 'r' # Face = Face
-b   = 'o' # Back = Orange
-r   = 'g' # Right = Droite
-l   = 'b' # Left = Gauche
+d   = 'w' 
+u   = 'y' 
+f   = 'r' 
+b   = 'o' 
+r   = 'g' 
+l   = 'b' 
 
 
-# Aretes, le nom des variables defini leur position sur le cube
-# Initiales faces = {'face' : 'couleur du cube '}
+#  Edges the name of the variables defines their position on the cube
+# Initial faces = {'face': 'color of the cube'}
+
 uf = {'u': 'y', 'd': '', 'f': 'r', 'b': '', 'r': '', 'l': ''} 
 ur = {'u': 'y', 'd': '', 'f': '', 'b': '', 'r': 'g', 'l': ''} 
 ub = {'u': 'y', 'd': '', 'f': '', 'b': 'o', 'r': '', 'l': ''} 
@@ -96,7 +98,7 @@ dbr = {'u': '', 'd': 'w', 'f': '', 'b': 'o', 'r': 'g', 'l': ''}
 dbl = {'u': '', 'd': 'w', 'f': '', 'b': 'o', 'r': '', 'l': 'b'}
 
 
-# Fonction pour fait les mouvements
+# Function for doing the movements
 def move(face, show=1):
 
 
@@ -104,18 +106,18 @@ def move(face, show=1):
 	global moveNbr
 	moveNbr += 1
 	if show == 1:
-		sys.stdout.write(face + ", ") # Affiche le mouvement suivi d'un virgule
+		sys.stdout.write(face + ", ") # Displays the movement followed by a comma
 
-	if face == "R": # Si le mouvement indique est R
+	if face == "R": # If the movement indicates is R
 		ufr['u'], ufr['f'], ufr['r'], ubr['u'], ubr['b'], ubr['r'], dbr['d'], dbr['b'], dbr['r'], dfr['d'], dfr['f'], dfr['r'],  = \
 		dfr['f'], dfr['d'], dfr['r'], ufr['f'], ufr['u'], ufr['r'], ubr['b'], ubr['u'], ubr['r'], dbr['b'], dbr['d'], dbr['r']
 
 		ur['u'], ur['r'], br['b'], br['r'], dr['d'], dr['r'], fr['f'], fr['r'],  = \
-		fr['f'], fr['r'], ur['u'], ur['r'], br['b'], br['r'], dr['d'], dr['r'] #Aretes
+		fr['f'], fr['r'], ur['u'], ur['r'], br['b'], br['r'], dr['d'], dr['r'] #Edges
 		rotate3D("R")
 
 
-	if face == "R'": # Si le mouvement indique est R'
+	if face == "R'": # If the movement indicates is R '
 		dfr['f'], dfr['d'], dfr['r'], ufr['f'], ufr['u'], ufr['r'], ubr['b'], ubr['u'], ubr['r'], dbr['b'], dbr['d'], dbr['r'], = \
 		ufr['u'], ufr['f'], ufr['r'], ubr['u'], ubr['b'], ubr['r'], dbr['d'], dbr['b'], dbr['r'], dfr['d'], dfr['f'], dfr['r']
 		
@@ -124,7 +126,7 @@ def move(face, show=1):
 		rotate3D("R'")
 
 
-	if face == "U": # Si le mouvement indique est U
+	if face == "U": # If the movement indicates is U
 		ufr['u'], ufr['f'], ufr['r'], ubr['u'], ubr['b'], ubr['r'], ubl['u'], ubl['b'], ubl['l'], ufl['u'], ufl['f'], ufl['l'],  = \
 		ubr['u'], ubr['r'], ubr['b'], ubl['u'], ubl['l'], ubl['b'], ufl['u'], ufl['l'], ufl['f'], ufr['u'], ufr['r'], ufr['f']
 		
@@ -138,7 +140,7 @@ def move(face, show=1):
 		ufr['u'], ufr['f'], ufr['r'], ubr['u'], ubr['b'], ubr['r'], ubl['u'], ubl['b'], ubl['l'], ufl['u'], ufl['f'], ufl['l']
 
 		ur['u'], ur['r'], uf['u'], uf['f'], ul['u'], ul['l'], ub['u'], ub['b'],  = \
-		uf['u'], uf['f'], ul['u'], ul['l'], ub['u'], ub['b'], ur['u'], ur['r']
+	uf['u'], uf['f'], ul['u'], ul['l'], ub['u'], ub['b'], ur['u'], ur['r']
 		rotate3D("U'")
 
 
@@ -226,7 +228,7 @@ def melanger(nbrDeMoves=25, show=1):
 		if show == 1:
 			sys.stdout.write(str(moveList[aleatoire]).upper()+ " ")
 	if show == 1:
-		print("\nCube melange !")
+		print("\nCube Mixing !")
 
 
 
@@ -245,7 +247,7 @@ def printCube():
 
 
 
-def turnCube(show=1): #de droite a gauche
+def turnCube(show=1): #from right to left
 	global d, u, f, b, r, l
 
 	# U
@@ -272,7 +274,7 @@ def turnCube(show=1): #de droite a gauche
 	rotate3D("E")
 
 	if show == 1:
-		print("Tourne le cube")
+		print("Turn the cube")
 
 
 
@@ -286,8 +288,8 @@ def resetCube():
 	r   = 'g' # Right
 	l   = 'b' # Left
 	
-	#Aretes, le nom des variables defini leur position sur le cube
-	#exp= {'face/direction' : 'couleur du cube '}
+	#Edges, the name of the variables defines their position on the cube
+    # exp = {'face / direction': 'color of the cube'}
 	uf = {'u': 'y', 'd': '', 'f': 'r', 'b': '', 'r': '', 'l': ''} 
 	ur = {'u': 'y', 'd': '', 'f': '', 'b': '', 'r': 'g', 'l': ''} 
 	ub = {'u': 'y', 'd': '', 'f': '', 'b': 'o', 'r': '', 'l': ''} 
@@ -315,7 +317,7 @@ def resetCube():
 def solveCroixBlanche(show=1):
 
 	if show == 1:
-		print("\nConstruction de la croix blanche :\n")
+		print("\nConstruction of the white cross :\n")
 	global d, u, f, b, r, l, uf, ur, ub, ul, df, dr, db, dl, fr, fl, br, bl, ufr, ufl, ubr, ubl, dfr, dfl, dbr, dbl
 	liste = ['r', 'g', 'o', 'b']
 
@@ -453,7 +455,7 @@ def solveCroixBlanche(show=1):
 			move("D", show)
 			move("R'", show)
 			move("D'", show)
-		#fin
+		#end
 		turnCube(show)
 
 
@@ -461,7 +463,7 @@ def solveCroixBlanche(show=1):
 def solveCoinsBlancs(show=1):
 
 	if show == 1:
-		print("\nMise en place des coins blancs :\n")
+		print("\nPlacement of white corners :\n")
 	global d, u, f, b, r, l, uf, ur, ub, ul, df, dr, db, dl, fr, fl, br, bl, ufr, ufl, ubr, ubl, dfr, dfl, dbr, dbl
 	liste = ["wrg", "wgo", "wob", "wbr"]
 
@@ -572,14 +574,14 @@ def isFinish():
 
 
 
-def solve2ndCouronne(show=1): # Resout la seconde couronne
+def solve2ndCouronne(show=1): #Solve the second crown
 
 	if show == 1:
-		print("\nConstruction de la seconde couronne :\n")
+		print("\nConstruction of the second crown:\n")
 	global uf, ur, ub, ul, df, dr, db, dl, fr, fl, br, bl
-	liste = ['rg', 'go', 'ob', 'br'] # Couleurs des aretes par binome, chaque lettre represente une couleur, 'rg' veut dire rouge-vert par exemple
+	liste = ['rg', 'go', 'ob', 'br'] # Colors of edges by binomial, each letter represents a color, 'rg' means red-green for example
 
-	for i in liste: # Cette ligne annonce une boucle, elle signifie "pour chaque element "i" dans la liste "liste"
+	for i in liste: # This line announces a loop, it means "for each element" i "in the list" list 
 
 		if fl['f'] in i and fl['l'] in i:
 			move("F", show)
@@ -720,7 +722,7 @@ def solve2ndCouronne(show=1): # Resout la seconde couronne
 			move("R", show)
 
 		if fr['f'] is i[0] and fr['r'] in i and show == 1:
-			print("Arete bien mise !")
+			print("Well put edge!")
 
 		turnCube(show)
 
@@ -728,7 +730,7 @@ def solve2ndCouronne(show=1): # Resout la seconde couronne
 
 def solveCroixJaune(show=1):
 	if show == 1:
-		print("\nConstruction de la croix jaune :\n")
+		print("\nConstruction of the yellow cross :\n")
 
 	global uf, ur, ub, ul
 
@@ -740,7 +742,7 @@ def solveCroixJaune(show=1):
 		move("F", show)
 		move("R", show)
 
-	if uf['u'] != 'y' and  ub['u'] != 'y' and ur['u'] == 'y' and ul['u'] == 'y': # Si ligne jaune bien mise :
+	if uf['u'] != 'y' and  ub['u'] != 'y' and ur['u'] == 'y' and ul['u'] == 'y': # If yellow line well put :
 		move("R'", show)
 		move("U'", show)
 		move("F'", show)
@@ -748,8 +750,8 @@ def solveCroixJaune(show=1):
 		move("F", show)
 		move("R", show)
 
-	if ur['u'] != 'y' and  ul['u'] != 'y' and uf['u'] == 'y' and ub['u'] == 'y': # Si ligne jaune mais mal mise :
-		move("U", show)  # Simple rotation de la face du dessus pour bien mettre la ligne jaune
+	if ur['u'] != 'y' and  ul['u'] != 'y' and uf['u'] == 'y' and ub['u'] == 'y':# If yellow line but poorly put:
+		move("U", show)  # Simple rotation of the top face to put the yellow line correctly
 		move("R'", show)
 		move("U'", show)
 		move("F'", show)
@@ -757,7 +759,7 @@ def solveCroixJaune(show=1):
 		move("F", show)
 		move("R", show)
 
-	if uf['u'] != 'y' and ur['u'] != 'y' and ub['u'] == 'y' and ul['u'] == 'y': # Si "L" jaune bien mis :
+	if uf['u'] != 'y' and ur['u'] != 'y' and ub['u'] == 'y' and ul['u'] == 'y': # If yellow "L" is well placed:
 		move("R'", show)
 		move("U'", show)
 		move("F'", show)
@@ -765,8 +767,8 @@ def solveCroixJaune(show=1):
 		move("F", show)
 		move("R", show)
 
-	if uf['u'] != 'y' and ur['u'] == 'y' and ub['u'] == 'y' and ul['u'] != 'y': # Si "L" jaune mal mis :
-		move("U'", show) # Simple rotation de la face du dessus pour bien mettre le "L" jaune
+	if uf['u'] != 'y' and ur['u'] == 'y' and ub['u'] == 'y' and ul['u'] != 'y': # If yellow "L" incorrectly placed:
+		move("U'", show) # Simple rotation of the top face to properly put the yellow "L"
 		move("R'", show)
 		move("U'", show)
 		move("F'", show)
@@ -774,9 +776,9 @@ def solveCroixJaune(show=1):
 		move("F", show)
 		move("R", show)
 
-	if uf['u'] == 'y' and ur['u'] == 'y' and ub['u'] != 'y' and ul['u'] != 'y': # Si "L" jaune mal mis :
-		move("U", show)	# Simple rotation de la face du dessus pour bien mettre le "L" jaune
-		move("U", show)	# Simple rotation de la face du dessus pour bien mettre le "L" jaune
+	if uf['u'] == 'y' and ur['u'] == 'y' and ub['u'] != 'y' and ul['u'] != 'y': # If yellow "L" incorrectly placed:
+		move("U", show)	# Simple rotation of the top face to properly put the yellow "L"
+		move("U", show)	# Simple rotation of the top face to properly put the yellow "L"
 		move("R'", show)
 		move("U'", show)
 		move("F'", show)
@@ -784,8 +786,8 @@ def solveCroixJaune(show=1):
 		move("F", show)
 		move("R", show)
 
-	if uf['u'] == 'y' and ur['u'] != 'y' and ub['u'] != 'y' and ul['u'] == 'y': # Si "L" jaune mal mis :
-		move("U", show)	# Simple rotation de la face du dessus pour bien mettre le "L" jaune
+	if uf['u'] == 'y' and ur['u'] != 'y' and ub['u'] != 'y' and ul['u'] == 'y': # If yellow "L" incorrectly placed:
+		move("U", show)	# Simple rotation of the top face to properly put the yellow "L"
 		move("R'", show)
 		move("U'", show)
 		move("F'", show)
@@ -793,11 +795,11 @@ def solveCroixJaune(show=1):
 		move("F", show)
 		move("R", show)
 
-	# Croix construite
+	# # Cross built
 
-	#Mise en place des couleurs :
-	loop = 1 # Variable qui determine si oui (0) ou non (1) les couleurs sont a leur places
-	while loop: # Boucle "tant que loop est égal a 1"
+	#Position of colors:
+	loop = 1 # Variable which determines whether yes (0) or not (1) the colors are in their place
+	while loop: #Loop "as long as loop is equal to 1
 			if uf['f'] == 'r' and ur['r'] == 'g':
 				move("U", show)
 				move("U", show)
@@ -838,7 +840,7 @@ def solveCroixJaune(show=1):
 			elif ur['r'] == 'b' and ub['b'] == 'r':
 				move("U'", show)
 
-			# Algorithme
+			# Algorithm
 			move("U", show)
 			move("R", show)
 			move("U", show)
@@ -849,7 +851,7 @@ def solveCroixJaune(show=1):
 			move("U", show)
 			move("R'", show)
 
-			#Teste le cube si les couleurs peuvent etre placees avec seulement des mouvements "U"
+			#Test the cube if the colors can be placed with only "U" movements
 			if ul['l'] == 'r' and uf['f'] == 'g' and ur['r'] == 'o' and ub['b'] == 'b':
 				move("U'", show)
 			if ul['l'] == 'o' and uf['f'] == 'b' and ur['r'] == 'r' and ub['b'] == 'g':
@@ -858,13 +860,13 @@ def solveCroixJaune(show=1):
 				move("U", show)
 				move("U", show)
 			if ul['l'] == 'b' and uf['f'] == 'r' and ur['r'] == 'g' and ub['b'] == 'o':
-				loop = 0 # Si la croix et les couleurs sont biens mises alors le programme sort de la fonction
+				loop = 0 # If the cross and the colors are correctly set then the program quits the function
 
 
 
 def solveFinal(show=1):
 	if show == 1:
-		print("\nMise en place des coins jaune :\n")
+		print("\nPlacement of yellow corners :\n")
 
 	while 1: # Boucle
 
@@ -872,9 +874,8 @@ def solveFinal(show=1):
 			('b' in ufl.values() and 'r' in ufl.values()) and \
 			('g' in ubr.values() and 'o' in ubr.values()) and \
 			('b' in ubl.values() and 'o' in ubl.values()):
-				break # break permet de sortir de la boucle
-
-		if 'g' in ubr.values() and 'o' in ubr.values(): # Si g (vert) et o (orange) sont contenus dans les valeurs de ubr (up-back-right) alors :
+				break # break allows you to get out of the loop
+		if 'g' in ubr.values() and 'o' in ubr.values(): # If g (green) and o (orange) are contained in the values ​​of ubr (up-back-right) then:
 			move("U", show)
 			move("U", show)
 			move("R", show)
@@ -918,7 +919,7 @@ def solveFinal(show=1):
 			move("L", show)
 			move("U", show)
 
-		else: # Si aucun cubie n'est bien place : / Sinon :
+		else: # If no cubie is properly placed: / Otherwise:
 			move("U", show)
 			move("R", show)
 			move("U'", show)
@@ -929,13 +930,13 @@ def solveFinal(show=1):
 			move("L", show)
 
 	while 1:
-		if ufr['u'] == 'y': # Si la couleur jaune du cubie est sur le dessus du cube alors :
-			if isFinish(): # Si le cube est resolu alors :
-				break # break permet de sortir de la boucle
+		if ufr['u'] == 'y': # If the yellow color of the cubie is on top of the cube then:
+			if isFinish(): # If the cube is solved then:
+				break # break allows you to get out of the loop
 
-			move("U'", show) # Passe au cubie suivant
+			move("U'", show) # Go to the next cubie
 
-		if ufr['r'] == 'y': # Si la couleur jaune du cubie est sur la droite du cube alors :
+		if ufr['r'] == 'y': # If the yellow color of the cubie is on the right of the cube then
 			move("R'", show)
 			move("D'", show)
 			move("R", show)
@@ -946,11 +947,7 @@ def solveFinal(show=1):
 			move("R", show)
 			move("D", show)
 
-		if ufr['f'] == 'y': # Si la couleur jaune du cubie est sur le devant du cube alors :
-			move("R'", show)
-			move("D'", show)
-			move("R", show)
-			move("D", show)
+		if ufr['f'] == 'y': # If the yellow color of the cubie is on the front of the cube then:
 
 			move("R'", show)
 			move("D'", show)
@@ -967,78 +964,81 @@ def solveFinal(show=1):
 			move("R", show)
 			move("D", show)
 
+			move("R'", show)
+			move("D'", show)
+			move("R", show)
+			move("D", show)
 
-##### Melange du cube #####
-print("Melange du cube :\n")
-melanger() # Melange le cube
-printCube() # Affiche le cube
-print("Melange du cube termine !\n")
-sleep(3) # Pause de 3 secondes
+
+##### Mixing the cube #####
+print("Mixing the cube :\n")
+melanger() # Mix the cube
+printCube() # Display cube
+print("Mixing the cube ends !\n")
+sleep(3) # Pause for 3 secondes
 
 
 ##### Resolution #####
 
-if isFinish(): # Si le cube est resolu :
+if isFinish(): # If the cube is solved :
 	print("Fini en " + str(moveNbr) + " mouvements !")
 	quit()
 
-solveCroixBlanche() # Resolution de la croix blanche
+solveCroixBlanche() # Resolution of the white cross
 
-if isFinish(): # Si le cube est resolu :
+if isFinish(): # If the cube is solved :
 	print("Fini en " + str(moveNbr) + " mouvements !")
 	quit()
 
-solveCoinsBlancs() # Resolution des coins blancs
+solveCoinsBlancs() # Resolution of white corners
 
-printCube() # Affiche le cube
+printCube() # Display cube 
 
-if isFinish(): # Si le cube est resolu :
+if isFinish(): # If the cube is solved :
 	print("Fini en"  + str(moveNbr) + " mouvements !")
 	quit()
 
-solve2ndCouronne() # Resolution de la deuxieme ligne
+solve2ndCouronne() # Second line resolution
 
-printCube() # Affiche le cube
+printCube() # Display cube
 
-if isFinish(): # Si le cube est resolu :
+if isFinish(): # If the cube is solved :
 	print("Fini en " + str(moveNbr) + " mouvements !")
 	quit()
 
-solveCroixJaune() # Resolution de la croix jaune
+solveCroixJaune() # Resolution of the yellow cross
 
-printCube() # Affiche le cube
-
-if isFinish(): # Si le cube est resolu :
+printCube() # Display cube
+if isFinish(): # If the cube is solved :
 	print("Fini en " + str(moveNbr) + " mouvements !")
 	quit()
 
-solveFinal() # Resolution des coins de la face jaune
+solveFinal() # 
 
-printCube() # Affiche le cube
+printCube() # Display cube
 
-if isFinish(): # Si le cube est resolu :
+if isFinish(): # If the cube is solved :
 	print("Fini en " + str(moveNbr) + " mouvements !")
 	quit()
 
-printCube() # En cas de probleme on affiche le cube
+printCube() # In case of problem we display the cube
 
 
-
-### Tests Statistiques ###
+### Statistical Tests ###
 #nope = 0
 #moveNbrStat = []
 #y = 10000
-#for x in range(y):
-#	resetCube()
-#	moveNbr=0
-#	melanger(25, 0)
-#	solveCroixBlanche(0)
-#	solveCoinsBlancs(0)
-#	solve2ndCouronne(0)
-#	solveCroixJaune(0)
-#	solveFinal(0)
-#	if not isFinish():
-#		print "erreur"
-#	moveNbrStat.append(moveNbr)
-#	#printCube()
-#print(str(y) + " cubes resolus avec " + str(sum(moveNbrStat)/len(moveNbrStat)) + " mouvements en moyenne ")
+#for x in range (y):
+# resetCube ()
+# moveNbr = 0
+#mix (25, 0)
+# solveWhiteCross (0)
+# solveWhiteCoins (0)
+# solve2ndCrown (0)
+# solveCroixYaune (0)
+# solveFinal (0)
+# if not isFinish ():
+# print "error"
+# moveNbrStat.append (moveNbr)
+# #printCube ()
+#print (str (y) + "cubes resolved with" + str (sum (moveNbrStat) / len (moveNbrStat)) + "average movements")
